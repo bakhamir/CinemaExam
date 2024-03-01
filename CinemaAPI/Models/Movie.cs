@@ -12,13 +12,14 @@ namespace CinemaWPF.Models
 		public string username { get; set; }
 		public string pwd { get; set; }
 		public string accessRole { get; set; }
-
-		public Users(int id_, string username_, string pwd_, string accessRole_)
+		public int ticketid { get; set; }
+		public Users(int id_, string username_, string pwd_, string accessRole_, int ticketid_)
 		{
 			this.id = id_;
 			this.username = username_;
 			this.pwd = pwd_;
 			this.accessRole = accessRole_;
+			this.ticketid = ticketid_;
 		}
 	}
 	public class movie

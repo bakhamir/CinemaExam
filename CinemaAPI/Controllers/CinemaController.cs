@@ -8,11 +8,12 @@ namespace CinemaAPI.Controllers
     public class CinemaController : Controller
     {
         private readonly string conStr = "Data Source=207-3; Initial Catalog=CinemaDb;Integrated Security=True;TrustServerCertificate=Yes";
+        private readonly string adminCode = "iwasbornintheusa";
         public IActionResult Index()
         {
             return View();
         }
-        [HttpPost("/Login")]
+        [HttpGet("/Login")]
         public async Task<bool> Login(string login, string password)
         {
             using (SqlConnection db = new SqlConnection(conStr))
@@ -20,7 +21,8 @@ namespace CinemaAPI.Controllers
                 DynamicParameters p = new DynamicParameters();
                 p.Add("login", login); p.Add("pwd", password);
                 var res = db.Query("pUser", p, commandType: System.Data.CommandType.StoredProcedure);
-                if (res != null)
+             
+                if (res.Count() != 0)
                     return true;
                 else
                     return false;
@@ -31,16 +33,23 @@ namespace CinemaAPI.Controllers
         {
             using (SqlConnection db = new SqlConnection(conStr))
             {
-                return db.ExecuteScalar("pUser;2", id, commandType: System.Data.CommandType.StoredProcedure).ToString();
+                DynamicParameters p = new DynamicParameters();
+                p.Add("@id", id);
+                return db.ExecuteScalar("pUser;2", p, commandType: System.Data.CommandType.StoredProcedure).ToString();
             }
         }
-        [HttpPost("/Register")]
-        public async Task<bool> Register(string login, string password)
+        [HttpGet("/Register")]
+        public async Task<bool> Register(string login, string password,string secretCode)
         {
             using (SqlConnection db = new SqlConnection(conStr))
             {
+                
                 DynamicParameters p = new DynamicParameters();
                 p.Add("login", login); p.Add("pwd", password);
+                if (secretCode == adminCode)
+                    p.Add("role", "admin");
+                else
+                    p.Add("role", "user");
                 var res = db.Query("pUser;3", p, commandType: System.Data.CommandType.StoredProcedure);
                 if (res != null)
                     return true;
