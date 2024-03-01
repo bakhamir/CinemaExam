@@ -28,29 +28,29 @@ namespace CinemaAPI.Controllers
                     return false;
             }
         }
-        [HttpPost("/GetRole")]
-        public async Task<string> GetRole(string id)
+        [HttpGet("/GetRole")]
+        public async Task<string> GetRole(string secretCode)
         {
-            using (SqlConnection db = new SqlConnection(conStr))
+            if (secretCode == adminCode)
             {
-                DynamicParameters p = new DynamicParameters();
-                p.Add("@id", id);
-                return db.ExecuteScalar("pUser;2", p, commandType: System.Data.CommandType.StoredProcedure).ToString();
+                return "admin";
+            }
+            else
+            {
+                return "user";
             }
         }
         [HttpGet("/Register")]
-        public async Task<bool> Register(string login, string password,string secretCode)
+        public async Task<bool> Register(string login, string password)
         {
             using (SqlConnection db = new SqlConnection(conStr))
             {
                 
                 DynamicParameters p = new DynamicParameters();
-                p.Add("login", login); p.Add("pwd", password);
-                if (secretCode == adminCode)
-                    p.Add("role", "admin");
-                else
-                    p.Add("role", "user");
-                var res = db.Query("pUser;3", p, commandType: System.Data.CommandType.StoredProcedure);
+                p.Add("login", login);
+                p.Add("pwd", password);
+                p.Add("role", "null");
+                 var res = db.Query("pUser;3", p, commandType: System.Data.CommandType.StoredProcedure);
                 if (res != null)
                     return true;
                 else

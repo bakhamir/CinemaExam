@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using CinemaWPF.Models;
 namespace CinemaWPF
 {
     /// <summary>
@@ -21,6 +21,7 @@ namespace CinemaWPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static Users user = new Users();
         public MainWindow()
         {
             InitializeComponent();
@@ -30,8 +31,14 @@ namespace CinemaWPF
         {
             using (HttpClient client = new HttpClient())
             {
-                string req = $"http://localhost:5183/Register?login={regName.Text}&password={regPwd.Text}&secretCode={admCode.Text}";
+                user.username = regName.Text;
+                user.pwd = regPwd.Text;
+                string req = $"http://localhost:5183/Register?login={user.username}&password={user.pwd}";
+                string rolereq = $"http://localhost:5183/GetRole?secretCode={admCode.Text}";
                 var response = await client.GetAsync(req);
+                var roleResponse = await client.GetAsync(rolereq);
+                var json = await roleResponse.Content.ReadAsStringAsync();
+                user.accessRole = json;
                         signLogIn authPage = new signLogIn();
                         this.Close();
                         authPage.Show();
@@ -42,7 +49,9 @@ namespace CinemaWPF
         {
             using (HttpClient client = new HttpClient())
             {
-                string req = $"http://localhost:5183/Login?login={logName.Text}&password={logPwd.Text}";
+                user.username = logName.Text;
+                user.pwd = logPwd.Text;
+                string req = $"http://localhost:5183/Login?login={user.username}&password={user.pwd}";
                 var response = await client.GetAsync(req);
                 signLogIn authPage = new signLogIn(); 
                 var json = await response.Content.ReadAsStringAsync();

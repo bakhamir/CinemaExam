@@ -20,7 +20,11 @@ namespace CinemaWPF.Models
 			this.pwd = pwd_;
 			this.accessRole = accessRole_;
 		}
-	}
+
+        public Users()
+        {
+        }
+    }
 	public class movie
 	{
 		public int id { get; set; }
