@@ -121,3 +121,43 @@ insert into Users
 
     }
 }
+
+
+
+//drop table Users
+
+//create table Users(
+//id int identity,
+//username nvarchar(1000),
+//pwd nvarchar(1000),
+//accessRole nvarchar(1000),
+//ticketId int
+//)
+
+//insert into Users Values('john','john','user','1')
+
+//insert into Users Values('mary','mary','admin','2')
+
+//insert into Users Values('dave','dave','user','3')
+
+//select* from Users
+
+//exec pUser; 2 1
+
+//select* from Users where username like 'john' and pwd like 'john'
+
+//exec pUser; 3 'steve','steve','admin','4'
+
+//create proc pUser; 3
+//@login nvarchar(1000),
+//@pwd nvarchar(1000),
+//@role nvarchar(1000)
+//as
+//insert into Users values(@login, @pwd, @role,0)
+
+//pUser; 3 'joe','joe','admin'
+
+
+//    select* from Users
+
+
