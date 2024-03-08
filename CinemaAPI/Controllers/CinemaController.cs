@@ -7,7 +7,7 @@ namespace CinemaAPI.Controllers
 {
     public class CinemaController : Controller
     {
-        private readonly string conStr = "Data Source=207-3; Initial Catalog=CinemaDb;Integrated Security=True;TrustServerCertificate=Yes";
+        private readonly string conStr = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=CinemaDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         private readonly string adminCode = "iwasbornintheusa";
         public IActionResult Index()
         {
@@ -41,16 +41,18 @@ namespace CinemaAPI.Controllers
             }
         }
         [HttpGet("/Register")]
-        public async Task<bool> Register(string login, string password)
+        public async Task<bool> Register(string login, string password,string admpass)
         {
             using (SqlConnection db = new SqlConnection(conStr))
-            {
-                
+            { 
                 DynamicParameters p = new DynamicParameters();
                 p.Add("login", login);
                 p.Add("pwd", password);
                 p.Add("role", "null");
-                 var res = db.Query("pUser;3", p, commandType: System.Data.CommandType.StoredProcedure);
+                if (admpass == adminCode)
+                    p.Add("role", "admin"); 
+
+                var res = db.Query("pUser;3", p, commandType: System.Data.CommandType.StoredProcedure);
                 if (res != null)
                     return true;
                 else

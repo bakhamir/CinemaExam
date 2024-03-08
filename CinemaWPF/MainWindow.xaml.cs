@@ -33,7 +33,7 @@ namespace CinemaWPF
             {
                 user.username = regName.Text;
                 user.pwd = regPwd.Text;
-                string req = $"http://localhost:5183/Register?login={user.username}&password={user.pwd}";
+                string req = $"http://localhost:5183/Register?login={user.username}&password={user.pwd}&admpass={admCode.Text}";
                 string rolereq = $"http://localhost:5183/GetRole?secretCode={admCode.Text}";
                 var response = await client.GetAsync(req);
                 var roleResponse = await client.GetAsync(rolereq);
