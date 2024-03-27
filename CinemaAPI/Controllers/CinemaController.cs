@@ -36,7 +36,7 @@ namespace CinemaAPI.Controllers
                 }
                 else
                 {
-                       return false;
+                    return false;
                 }
             }
         }
@@ -80,7 +80,8 @@ namespace CinemaAPI.Controllers
             }
         }
 
-
+    }
+}
 
 //        create table Users(
 //        id int identity,
