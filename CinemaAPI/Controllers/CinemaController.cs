@@ -19,15 +19,24 @@ namespace CinemaAPI.Controllers
             using (SqlConnection db = new SqlConnection(conStr))
             {
                 DynamicParameters p = new DynamicParameters();
-                p.Add("login", login); p.Add("pwd", password);
-                var res = db.Query("pUser", p, commandType: System.Data.CommandType.StoredProcedure);
-             
-                if (res.Count() != 0)
+                p.Add("login", login);
+                p.Add("pwd", password);
+
+                // Используем QueryFirstOrDefault вместо Query
+                var res = await db.QueryFirstOrDefaultAsync("pUser", p, commandType: System.Data.CommandType.StoredProcedure);
+
+                // Проверяем, была ли получена хотя бы одна строка
+                if (res != null)
+                {
                     return true;
+                }
                 else
-                    return false;
+                {
+                       return false;
+                }
             }
         }
+
         [HttpGet("/GetRole")]
         public async Task<string> GetRole(string secretCode)
         {
@@ -41,24 +50,32 @@ namespace CinemaAPI.Controllers
             }
         }
         [HttpGet("/Register")]
-        public async Task<bool> Register(string login, string password,string admpass)
+        public async Task<bool> Register(string login, string password, string admpass)
         {
-            using (SqlConnection db = new SqlConnection(conStr))
-            { 
-                DynamicParameters p = new DynamicParameters();
-                p.Add("login", login);
-                p.Add("pwd", password);
-                p.Add("role", "null");
-                if (admpass == adminCode)
-                    p.Add("role", "admin"); 
+            try
+            {
+                using (SqlConnection db = new SqlConnection(conStr))
+                {
+                    await db.OpenAsync();
 
-                var res = db.Query("pUser;3", p, commandType: System.Data.CommandType.StoredProcedure);
-                if (res != null)
-                    return true;
-                else
-                    return false;
+                    // Проверяем, является ли пользователь администратором
+                    string role = (admpass == adminCode) ? "admin" : "user";
+
+                    // Выполняем вставку нового пользователя
+                    string query = "INSERT INTO Users (username, pwd, accessRole, ticketId) VALUES (@login, @password, @role, 0)";
+                    var affectedRows = await db.ExecuteAsync(query, new { login, password, role });
+
+                    return affectedRows > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Обработка исключений
+                Console.WriteLine("Ошибка при регистрации пользователя: " + ex.Message);
+                return false;
             }
         }
+
         /*
          create table Users(
 id int identity,

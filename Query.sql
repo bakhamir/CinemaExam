@@ -7,7 +7,7 @@
  accessRole nvarchar(1000),
  ticketId int
  )
-
+ drop table users;
 create table movie(
 id int identity,
 actors nvarchar(max),
@@ -47,7 +47,7 @@ create proc pUser
 as
 select * from Users where username like @login and pwd like @pwd
 
-
+ 
 
 create proc pUser;2
 @id int  
@@ -64,7 +64,7 @@ select accessRole from Users where id = @id
 
  select* from Users
 
- exec pUser; 2 1
+ exec pUser  'man', 'man'
 
  select* from Users where username like 'john' and pwd like 'john'
 
@@ -79,7 +79,7 @@ select accessRole from Users where id = @id
 
  pUser;3 'e','e','user'
 
- 
+ select * from users where username like 'et'
 
  create proc pUserReg
  @login nvarchar(1000),

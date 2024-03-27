@@ -25,22 +25,13 @@ namespace CinemaWPF
         {
             InitializeComponent();
             currentUser = user;
-            welcome.Content = $"Добро пожаловать {currentUser.username} ваша роль - {currentUser.id}";
+            welcome.Content= $"Добро пожаловать {currentUser.username}";
             // Используйте currentUser для отображения информации о пользователе на этой форме
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (currentUser.accessRole == "admin")
-            {
-                AdminPanel panel = new AdminPanel();
-                this.Close();
-                panel.Show();
-            }
-            else
-            {
-                MessageBox.Show("отказано в доступе");
-            }
+            MessageBox.Show($"Hello {currentUser.username}");
         }
 
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)

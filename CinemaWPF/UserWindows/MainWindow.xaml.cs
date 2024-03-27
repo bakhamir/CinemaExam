@@ -39,10 +39,11 @@ namespace CinemaWPF
                 var response = await client.GetAsync(req);
                 var roleResponse = await client.GetAsync(rolereq);
                 var json = await roleResponse.Content.ReadAsStringAsync();
+                string role = roleResponse.Content.ToString();
                 user.accessRole = json;
-                signLogIn authPage = new signLogIn(user);
-                this.Close();
-                authPage.Show();
+                        signLogIn authPage = new signLogIn(user);
+                        this.Close();
+                        authPage.Show();
             }
         }
 
@@ -54,9 +55,8 @@ namespace CinemaWPF
                 user.pwd = logPwd.Text;
                 string req = $"http://localhost:5183/Login?login={user.username}&password={user.pwd}";
                 var response = await client.GetAsync(req);
-                signLogIn authPage = new signLogIn(user);
+                signLogIn authPage = new signLogIn(user); 
                 var json = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(json); // Добавьте это для отладочного вывода
                 if (json == "true")
                 {
                     this.Close();
@@ -66,11 +66,9 @@ namespace CinemaWPF
                 {
                     MessageBox.Show("Неправильные вводные данные Еррор");
                 }
-
+                       
             }
 
         }
-
-   
     }
 }
