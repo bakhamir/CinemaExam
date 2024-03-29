@@ -10,6 +10,22 @@
         <Grid.Background>
             <ImageBrush ImageSource="/cat.png"/>
         </Grid.Background>
+        <TextBox x:Name="price" HorizontalAlignment="Left" Height="29" Margin="67,44,0,0" TextWrapping="Wrap" Text="Ticket price" VerticalAlignment="Top" Width="149"/>
+        <TextBox x:Name="seatings" HorizontalAlignment="Left" Height="29" Margin="67,112,0,0" TextWrapping="Wrap" Text="Seatings amount" VerticalAlignment="Top" Width="149"/>
+        <TextBox x:Name="time" HorizontalAlignment="Left" Height="29" Margin="67,78,0,0" TextWrapping="Wrap" Text="Seance time" VerticalAlignment="Top" Width="149"/>
+        <Button Content="submit " HorizontalAlignment="Left" Height="97" Margin="236,44,0,0" VerticalAlignment="Top" Width="45" Click="Button_Click"/>
+        <TextBox x:Name="actors" HorizontalAlignment="Left" Height="29" Margin="422,44,0,0" TextWrapping="Wrap" Text="Actors" VerticalAlignment="Top" Width="149"/>
+        <TextBox x:Name="about" HorizontalAlignment="Left" Height="29" Margin="422,180,0,0" TextWrapping="Wrap" Text="About" VerticalAlignment="Top" Width="149"/>
+        <TextBox x:Name="title" HorizontalAlignment="Left" Height="29" Margin="422,146,0,0" TextWrapping="Wrap" Text="Title" VerticalAlignment="Top" Width="149"/>
+        <TextBox x:Name="seanceId" HorizontalAlignment="Left" Height="29" Margin="422,112,0,0" TextWrapping="Wrap" Text="Seance ID" VerticalAlignment="Top" Width="149"/>
+        <TextBox x:Name="genres" HorizontalAlignment="Left" Height="28" Margin="422,79,0,0" TextWrapping="Wrap" Text="Genres" VerticalAlignment="Top" Width="149"/>
+        <TextBox x:Name="writer" HorizontalAlignment="Left" Height="29" Margin="422,214,0,0" TextWrapping="Wrap" Text="Writer" VerticalAlignment="Top" Width="149"/>
+        <TextBox x:Name="movieTime" HorizontalAlignment="Left" Height="29" Margin="422,248,0,0" TextWrapping="Wrap" Text="Length" VerticalAlignment="Top" Width="149"/>
+        <Label Content="Add seance" HorizontalAlignment="Left" Height="29" Margin="67,10,0,0" VerticalAlignment="Top" Width="203"/>
+        <Label Content="Add movie" HorizontalAlignment="Left" Height="29" Margin="422,10,0,0" VerticalAlignment="Top" Width="203"/>
+        <Button Content="Add image" HorizontalAlignment="Left" Height="67" Margin="576,44,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_2"/>
+        <Button Content="submit movie" HorizontalAlignment="Left" Height="73" Margin="422,294,0,0" VerticalAlignment="Top" Width="229" Click="Button_Click_1"/>
+        <Label x:Name="imgShow" Content="Your image path" HorizontalAlignment="Left" Height="34" Margin="576,128,0,0" VerticalAlignment="Top" Width="161"/>
 
     </Grid>
 </Window>

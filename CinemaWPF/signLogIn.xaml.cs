@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,8 +26,8 @@ namespace CinemaWPF
         {
             InitializeComponent();
             currentUser = user;
-            welcome.Content = $"Добро пожаловать {currentUser.username} ваша роль - {currentUser.id}";
-            // Используйте currentUser для отображения информации о пользователе на этой форме
+            welcome.Content = $"Добро пожаловать {currentUser.username} ваша роль - {currentUser.accessRole}";
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

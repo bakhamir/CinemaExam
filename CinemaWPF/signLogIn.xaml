@@ -12,7 +12,6 @@
         </Grid.Background>
         <Label x:Name="welcome" Content="Добро пожаловать username !" HorizontalAlignment="Left" Height="25" Margin="23,23,0,0" VerticalAlignment="Top" Width="470" FontFamily="Calibri" FontStyle="Italic"/>
         <Button Content="Admin panel" HorizontalAlignment="Left" Height="31" Margin="597,77,0,0" VerticalAlignment="Top" Width="175" Click="Button_Click"/>
-        <DataGrid HorizontalAlignment="Left" Height="161" Margin="23,113,0,0" VerticalAlignment="Top" Width="369" d:ItemsSource="{d:SampleData ItemCount=5}"/>
-
+        
     </Grid>
 </Window>

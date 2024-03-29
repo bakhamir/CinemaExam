@@ -54,9 +54,14 @@ namespace CinemaWPF
                 user.pwd = logPwd.Text;
                 string req = $"http://localhost:5183/Login?login={user.username}&password={user.pwd}";
                 var response = await client.GetAsync(req);
-                signLogIn authPage = new signLogIn(user);
                 var json = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(json); // Добавьте это для отладочного вывода
+                Console.WriteLine(json); 
+                string rolereq = $"http://localhost:5183/UserGetRole?login={user.username}&password={user.pwd}";
+                var roleresponse = await client.GetStringAsync(rolereq);
+
+                user.accessRole = roleresponse;
+
+                signLogIn authPage = new signLogIn(user);
                 if (json == "true")
                 {
                     this.Close();
@@ -71,6 +76,11 @@ namespace CinemaWPF
 
         }
 
-   
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            AdminPanel adminPanel = new AdminPanel();
+            this.Close();
+            adminPanel.Show();
+        }
     }
 }

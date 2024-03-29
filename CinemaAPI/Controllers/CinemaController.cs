@@ -53,6 +53,20 @@ namespace CinemaAPI.Controllers
                 return "user";
             }
         }
+
+        [HttpGet("/UserGetRole")]
+        public async Task<string> UserGetRole(string login, string password)
+        {
+            string accessRole = "";
+            using (var connection = new SqlConnection(conStr))
+            {
+                DynamicParameters p = new DynamicParameters();
+                p.Add("login", login);
+                p.Add("pwd", password);
+                accessRole = connection.QueryFirstOrDefault<string>("pUserGetRole" , p, commandType: System.Data.CommandType.StoredProcedure);
+            }
+            return accessRole;
+        }
         [HttpGet("/Register")]
         public async Task<bool> Register(string login, string password, string admpass)
         {
@@ -79,6 +93,54 @@ namespace CinemaAPI.Controllers
                 return false;
             }
         }
+        [HttpGet("/AddSeance")]
+        public async Task<int> AddSeance(int price, int seatings, string seanceTime)
+        {
+            using (var db = new SqlConnection(conStr))
+            {
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@Price", price);
+                parameters.Add("@Seatings", seatings);
+                parameters.Add("@SeanceTime", seanceTime);
+
+                return await db.ExecuteAsync("pAddSeance", parameters, commandType: System.Data.CommandType.StoredProcedure);
+            }
+        }
+        [HttpPost("/AddMovie")]
+        public async Task<IActionResult> AddMovie(string actors, string genres, int seanceId, string title, string about, string writer, string movieTime, IFormFile image)
+        {
+            // Преобразование изображения в массив байтов
+            byte[] imageData = null;
+            if (image != null && image.Length > 0)
+            {
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    await image.CopyToAsync(memoryStream);
+                    imageData = memoryStream.ToArray();
+                }
+            }
+
+            // Вызов хранимой процедуры для добавления фильма
+            using (SqlConnection db = new SqlConnection(conStr))
+            {
+                DynamicParameters p = new DynamicParameters();
+                p.Add("Actors", actors);
+                p.Add("Genres", genres);
+                p.Add("SeanceId", seanceId);
+                p.Add("Title", title);
+                p.Add("About", about);
+                p.Add("Writer", writer);
+                p.Add("MovieTime", movieTime);
+                p.Add("ImageData", imageData);
+                p.Add("ImageName", image != null ? image.FileName : null);
+
+                // Вызываем хранимую процедуру для добавления фильма
+                await db.ExecuteAsync("pAddMovie", p, commandType: System.Data.CommandType.StoredProcedure);
+            }
+
+            return Ok("1"); // Возвращаем успешный результат
+        }
+
 
     }
 }

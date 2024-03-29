@@ -21,6 +21,7 @@
         <Label Content="Login&#xD;&#xA;Login" HorizontalAlignment="Left" Height="27" Margin="487,91,0,0" VerticalAlignment="Top" Width="188" FontStyle="Italic" FontSize="14" FontWeight="Normal"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="450" Margin="382,0,0,0" VerticalAlignment="Top" Width="3"/>
         <TextBox x:Name="admCode" HorizontalAlignment="Left" Height="29" Margin="82,247,0,0" TextWrapping="Wrap" Text="secret admin code" VerticalAlignment="Top" Width="150"/>
+        <Button Content="Button" HorizontalAlignment="Left" Height="33" Margin="511,355,0,0" VerticalAlignment="Top" Width="145" Click="Button_Click_2"/>
 
     </Grid>
 </Window>
