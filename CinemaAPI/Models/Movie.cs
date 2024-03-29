@@ -1,8 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace CinemaWPF.Models
 {
@@ -22,30 +26,36 @@ namespace CinemaWPF.Models
 			this.ticketid = ticketid_;
 		}
 	}
-	public class movie
-	{
-		public int id { get; set; }
-		public string actors { get; set; }
-		public string genres { get; set; }
-		public int seanceId { get; set; }
-		public string title { get; set; }
-		public string about { get; set; }
-		public string writer { get; set; }
-		public string movieTime { get; set; }
-
-		public movie(int id_, string actors_, string genres_, int seanceId_, string title_, string about_, string writer_, string movieTime_)
-		{
-			this.id = id_;
-			this.actors = actors_;
-			this.genres = genres_;
-			this.seanceId = seanceId_;
-			this.title = title_;
-			this.about = about_;
-			this.writer = writer_;
-			this.movieTime = movieTime_;
-		}
-	}
-	public class seance
+    public class movie
+    {
+        public int id { get; set; }
+        public string actors { get; set; }
+        public string genres { get; set; }
+        public int seanceId { get; set; }
+        public string title { get; set; }
+        public string about { get; set; }
+        public string writer { get; set; }
+        public string movieTime { get; set; }
+        [JsonProperty("ImageData")]
+        public byte[] ImageData { get; set; }
+        [JsonProperty("ImageName")]
+        public string ImageName { get; set; }
+		 
+        public movie(int id, string actors, string genres, int seanceId, string title, string about, string writer, string movieTime, byte[] ImageData, string ImageName)
+        {
+            this.id = id;
+            this.actors = actors;
+            this.genres = genres;
+            this.seanceId = seanceId;
+            this.title = title;
+            this.about = about;
+            this.writer = writer;
+            this.movieTime = movieTime;
+            this.ImageData = ImageData;
+            this.ImageName = ImageName;
+        }
+    }
+    public class seance
 	{
 		public int id { get; set; }
 		public int price { get; set; }
@@ -58,8 +68,16 @@ namespace CinemaWPF.Models
 			this.price = price_;
 			this.seatings = seatings_;
 			this.seanceTime = seanceTime_;
-		}
-	}
+        }
+        public seance()
+        {
+            // Добавьте значения по умолчанию для полей
+            this.id = 0;
+            this.price = 0;
+            this.seatings = 0;
+            this.seanceTime = "";
+        }
+    }
 	public class places
 	{
 		public int id { get; set; }
@@ -90,4 +108,5 @@ namespace CinemaWPF.Models
 			this.price = price_;
 		}
 	}
+ 
 }

@@ -140,7 +140,67 @@ namespace CinemaAPI.Controllers
 
             return Ok("1"); // Возвращаем успешный результат
         }
+        [HttpGet("GetAllMovies")]
+        public async Task<IActionResult> GetAllMovies()
+        {
+            using (var db = new SqlConnection(conStr))
+            {
+                var movies = await db.QueryAsync<movie>("GetAllMovies", commandType: System.Data.CommandType.StoredProcedure);
+                return Ok(movies);
+            }
+        }
+        [HttpGet("GetSeanceByMovie")]
+        public async Task<IActionResult> GetSeanceByMovie(int SeanceId)
+        {
+            try
+            {
+                using (var db = new SqlConnection(conStr))
+                {
+                    var parameters = new DynamicParameters();
+                    parameters.Add("SeanceId", SeanceId);
 
+                    var seances =  db.Query<seance>("GetSeanceByMovie", parameters, commandType: CommandType.StoredProcedure);
+
+                    return Ok(seances);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Произошла ошибка: {ex.Message}");
+            }
+        }
+        [HttpGet("UpdateUserTicketId")]
+        public async Task<IActionResult> UpdateUserTicketId(int id)
+        {
+            try
+            {
+                using (var db = new SqlConnection(conStr))
+                {
+                    // Создаем строку запроса UPDATE
+                    string query = $"UPDATE USERS SET TICKETID = @TicketId WHERE UserId = @UserId";
+
+                    // Создаем анонимный объект с параметрами запроса
+                    var parameters = new { TicketId = id, UserId = 1 }; // Замените 1 на реальный Id пользователя
+
+                    // Выполняем запрос к базе данных
+                    var rowsAffected = await db.ExecuteAsync(query, parameters);
+
+                    // Проверяем количество затронутых строк
+                    if (rowsAffected > 0)
+                    {
+                        return Ok(); // Возвращаем успешный результат
+                    }
+                    else
+                    {
+                        return NotFound(); // Если ни одна строка не была изменена
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Произошла ошибка: {ex.Message}"); // Возвращаем код ошибки 500 с сообщением об ошибке
+            }
+        }
 
     }
 }

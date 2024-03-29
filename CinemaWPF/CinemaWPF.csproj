@@ -20,6 +20,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.28" />
+    <PackageReference Include="EcoCore" Version="7.0.0.15531" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="cat.png" />
     <Resource Include="exbg.jpg" />
   </ItemGroup>

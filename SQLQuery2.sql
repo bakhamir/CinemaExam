@@ -64,3 +64,27 @@ BEGIN
 END
 
 select * from movie
+
+CREATE PROCEDURE GetAllMovies
+AS
+BEGIN
+    SELECT ImageName FROM movie;
+END
+
+ 
+CREATE PROCEDURE GetSeanceByMovie
+@SeanceId int
+AS
+BEGIN
+    SELECT * FROM seance where id = @SeanceId;
+END
+    GetSeanceByMovie 1
+create table seance(
+id int identity,
+price int,
+seatings int,
+seanceTime nvarchar(1000)
+)
+drop table seance
+
+select * from seance
