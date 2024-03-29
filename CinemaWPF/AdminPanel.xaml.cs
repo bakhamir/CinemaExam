@@ -99,6 +99,11 @@ namespace CinemaWPF
             }
         }
 
-
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            MainWindow menu = new MainWindow();
+            this.Close();
+            menu.Show();
+        }
     }
 }

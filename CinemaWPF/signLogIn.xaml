@@ -12,6 +12,17 @@
         </Grid.Background>
         <Label x:Name="welcome" Content="Добро пожаловать username !" HorizontalAlignment="Left" Height="25" Margin="23,23,0,0" VerticalAlignment="Top" Width="470" FontFamily="Calibri" FontStyle="Italic"/>
         <Button Content="Admin panel" HorizontalAlignment="Left" Height="31" Margin="597,77,0,0" VerticalAlignment="Top" Width="175" Click="Button_Click"/>
-        <WrapPanel x:Name="Posters" HorizontalAlignment="Left" Height="196" Margin="23,196,0,0" VerticalAlignment="Top" Width="749"/>
+        <WrapPanel x:Name="Posters" HorizontalAlignment="Center" Height="238" Margin="0,186,0,0" VerticalAlignment="Top" Width="800"/>
+        <TextBox x:Name="movieName" HorizontalAlignment="Left" Margin="45,92,0,0" TextWrapping="Wrap" Text="movie title" VerticalAlignment="Top" Width="76" RenderTransformOrigin="0.5,0.5" Height="53">
+            <TextBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="-3.686"/>
+                    <RotateTransform Angle="0"/>
+                    <TranslateTransform X="-0.578"/>
+                </TransformGroup>
+            </TextBox.RenderTransform>
+        </TextBox>
+        <Button Content="Button" HorizontalAlignment="Left" Height="54" Margin="139,92,0,0" VerticalAlignment="Top" Width="64" Click="Button_Click_1"/>
     </Grid>
 </Window>

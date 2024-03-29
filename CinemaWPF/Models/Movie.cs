@@ -37,9 +37,7 @@ namespace CinemaWPF.Models
         public string about { get; set; }
         public string writer { get; set; }
         public string movieTime { get; set; }
-        [JsonProperty("ImageData")]
         public byte[] ImageData { get; set; }
-        [JsonProperty("ImageName")]
         public string ImageName { get; set; }
 
         public movie(int id, string actors, string genres, int seanceId, string title, string about, string writer, string movieTime, byte[] ImageData, string ImageName)

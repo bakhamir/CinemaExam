@@ -16,8 +16,8 @@ using System.Windows;
     using System.Windows.Shapes;
     using CinemaWPF.Models;
     using CinemaWPF.ViewModels;
-    using Eco.ViewModel.Runtime;
-using Newtonsoft.Json;
+        using Newtonsoft.Json;
+
 
 namespace CinemaWPF
     {
@@ -32,18 +32,17 @@ namespace CinemaWPF
             {
                 InitializeComponent();
                 currentUser = user;
-                welcome.Content = $"Добро пожаловать {currentUser.username} ваша роль - {currentUser.accessRole}";
 
-                LoadMovies(); // Загружаем данные о фильмах 
-               
+                LoadMovies("http://localhost:5183/GetAllMovies"); // Загружаем данные о фильмах 
+          
             }
-        private async void LoadMovies()
+        private async void LoadMovies(string query)
         {
             using (HttpClient client = new HttpClient())
             {
                 try
                 {
-                    HttpResponseMessage response = await client.GetAsync("http://localhost:5183/GetAllMovies");
+                    HttpResponseMessage response = await client.GetAsync(query);
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -90,7 +89,7 @@ namespace CinemaWPF
         }
         private void ShowMovieDetails(movie movie)
         {
-            // Создаем новое окно для отображения деталей фильма
+           
             SeanceWindow detailsWindow = new SeanceWindow(movie,currentUser);
             detailsWindow.ShowDialog(); // Отображаем окно как диалоговое
         }
@@ -113,6 +112,12 @@ namespace CinemaWPF
             private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
             {
 
+            }
+
+            private void Button_Click_1(object sender, RoutedEventArgs e)
+            {
+                Posters.Children.Clear();
+                LoadMovies($"http://localhost:5183/GetMoviesByTitle?title={movieName.Text}");
             }
         }
     }

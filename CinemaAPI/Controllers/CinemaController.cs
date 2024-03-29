@@ -11,8 +11,8 @@ namespace CinemaAPI.Controllers
 {
     public class CinemaController : Controller
     {
-        private readonly string conStr = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=CinemaDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-        private readonly string adminCode = "iwasbornintheusa";
+        private readonly string conStr = "Server=207-3;Database=CinemaDb;Trusted_Connection=True;";
+        private readonly string adminCode = "password";
         public IActionResult Index()
         {
             return View();
@@ -149,6 +149,19 @@ namespace CinemaAPI.Controllers
                 return Ok(movies);
             }
         }
+        [HttpGet("GetMoviesByTitle")]
+        public async Task<IActionResult> GetMoviesByTitle(string title)
+        {
+            using (var db = new SqlConnection(conStr))
+            {
+                DynamicParameters p = new DynamicParameters();
+                p.Add("title", title);
+                var movies = await db.QueryAsync<movie>("GetMoviesByTitle",p, commandType: System.Data.CommandType.StoredProcedure);
+                return Ok(movies);
+            }
+        }
+
+
         [HttpGet("GetSeanceByMovie")]
         public async Task<IActionResult> GetSeanceByMovie(int SeanceId)
         {
@@ -170,38 +183,84 @@ namespace CinemaAPI.Controllers
             }
         }
         [HttpGet("UpdateUserTicketId")]
-        public async Task<IActionResult> UpdateUserTicketId(int id)
+        public async Task<int> UpdateUserTicketId(int id,int userid)
         {
             try
             {
                 using (var db = new SqlConnection(conStr))
                 {
-                    // Создаем строку запроса UPDATE
-                    string query = $"UPDATE USERS SET TICKETID = @TicketId WHERE UserId = @UserId";
+        
+                    string query = $"UPDATE USERS SET TICKETID = @TicketId WHERE Id = @UserId";
 
-                    // Создаем анонимный объект с параметрами запроса
-                    var parameters = new { TicketId = id, UserId = 1 }; // Замените 1 на реальный Id пользователя
+                    var parameters = new { TicketId = id, UserId = userid }; // Замените 1 на реальный Id пользователя
 
                     // Выполняем запрос к базе данных
                     var rowsAffected = await db.ExecuteAsync(query, parameters);
-
-                    // Проверяем количество затронутых строк
+                     
                     if (rowsAffected > 0)
                     {
-                        return Ok(); // Возвращаем успешный результат
+                        return 1;  
                     }
                     else
                     {
-                        return NotFound(); // Если ни одна строка не была изменена
+                        return 0; 
                     }
                 }
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Произошла ошибка: {ex.Message}"); // Возвращаем код ошибки 500 с сообщением об ошибке
+                return 0;
             }
         }
+        [HttpGet("DecreaseSeats")]//лишний код
+        public async Task<int> DecreaseSeats()
+        {
+            try
+            {
+                using (var db = new SqlConnection(conStr))
+                {
 
+                    string query = $"UPDATE Seance SET Seatings = seatings - 1";
+                    var rowsAffected = await db.ExecuteAsync(query);
+                    if (rowsAffected > 0)
+                    {
+                        return 1;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
+        [HttpGet("ReturnTicket")]
+        public async Task<int> ReturnTicket(int seanceid,int userid)
+        {
+            try
+            {
+                using (var db = new SqlConnection(conStr))
+                {
+                    DynamicParameters dynamicParameters = new DynamicParameters();
+                    var rowsAffected = db.Query("ReturnTicket", dynamicParameters,commandType: CommandType.StoredProcedure);
+                    if (rowsAffected != null)
+                    {
+                        return 1;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
     }
 }
 
