@@ -32,7 +32,7 @@ namespace CinemaWPF
             {
                 InitializeComponent();
                 currentUser = user;
-
+            welcome.Content = $"Добро пожаловать {currentUser.username}";
                 LoadMovies("http://localhost:5183/GetAllMovies"); // Загружаем данные о фильмах 
           
             }
