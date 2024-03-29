@@ -426,20 +426,20 @@ namespace CinemaAPI.Controllers
 
 //select * from seance
 
-create proc GetMoviesByTitle
-@title nvarchar(max)
-as
-select* from movie where title like '%' + @title + '%'
+//create proc GetMoviesByTitle
+//@title nvarchar(max)
+//as
+//select* from movie where title like '%' + @title + '%'
 
-UPDATE Seance SET Seatings = seatings - 1
+//UPDATE Seance SET Seatings = seatings - 1
 
-select * from seance
+//select * from seance
 
-create proc ReturnTicket
-@userid int,
-@seanceid int
-as
-Update Users set ticketId = 0 where id = @userid
-Update seance set seatings = seatings + 1 where id = @seanceid
+//create proc ReturnTicket
+//@userid int,
+//@seanceid int
+//as
+//Update Users set ticketId = 0 where id = @userid
+//Update seance set seatings = seatings + 1 where id = @seanceid
 
-select * from users
+//select * from users
